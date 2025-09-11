@@ -1,0 +1,91 @@
+---
+title: "plan de analisis"
+output: html_document
+date: "2025-09-11"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# **PLAN DE ANALISIS UC-IRAG** 
+
+## **Introducción:**
+
+Las infecciones respiratorias agudas (IRAs) constituyen una importante causa de morbimortalidad afectando fundamentalmente a niñas/os menores de cinco años, particularmente aquellos menores de 2 años, adultos mayores y personas susceptibles con patologías de base (cardiovascular, respiratoria, inmunosupresión, entre otras). En Argentina, todos los años se verifica un progresivo aumento de los casos de IRAs en la época invernal. Dicho aumento se asocia con un incremento en la demanda de atención, del número de hospitalizaciones y de la mortalidad por causas respiratorias. Las infecciones respiratorias emergentes representan un riesgo importante para la población en virtud de su elevado potencial de transmisión de persona a persona. 
+
+La Organización Mundial de la Salud recomienda la implementación de sistemas de vigilancia centinela de hospitalizaciones por IRAG (UC-IRAG) que integran la vigilancia de virus respiratorios con potencial epidémico y pandémico: SARS-CoV-2, influenza y virus sincitial respiratorio (VSR). La UC-IRAG en casos hospitalizados se complementa con la vigilancia centinela de estos tres virus en ambulatorios a través de las Unidades de Monitoreo Ambulatorio (UMAs) y ambas permiten caracterizar el espectro de severidad de las infecciones respiratorias agudas de manera integrada. 
+
+En el marco del fortalecimiento de la estrategia federal de vigilancia de infecciones respiratorias agudas graves (IRAG), el Ministerio de Salud de la Nación propuso en el 2024 la expansión de la Red de Unidades Centinela (UC-IRAG) a las 24 jurisdicciones del país, motivo por el cual en consonancia con esta iniciativa, el Ministerio de Salud Pública de la provincia de Tucumán designó al Hospital de Clínicas Presidente Dr. Nicolás Avellaneda como sitio centinela para la implementación de la vigilancia de IRAG en la provincia.
+
+## **Objetivo del análisis**
+
+Describir el perfil clínico, epidemiológico y de diagnóstico etiológico de las infecciones respiratorias agudas graves (IRAG) durante el período comprendido entre la SE 18 del año 2024 hasta la SE 30 del año 2025
+
+## **Período de estudio:**
+
+Desde la SE 18 del año 2024, que corresponde al inicio de la estrategia en el hospital Avellaneda hasta la SE 30 del año 2025. Se considera a futuro para ir actualizando los datos y sumando más SE del año 2025. 
+
+## **Fuentes de datos:**
+
+Se utilizará como fuente de datos el recorte de UCIRAG de la Oud Cloud del SNVS 2.0 5.
+
+## **Criterios de exclusión:**
+
+-   Pacientes cuya clasificación manual en la variable CLASIFICACION_MANUAL corresponda a \"caso invalidado por epidemiología\"
+
+-   Se eliminarán los valores faltantes de las variables consideradas en el análisis
+
+## **Variables que se utilizarán en el procesamiento:**
+
+1.  CLASIFICACION_MANUAL: Variable categórica a partir de la cual se identificarán los casos de IRAG e IRAG extendida. No seran considerados para el analisis los casos cuya clasificacion manual corresponda a "caso invalidado por epidemiologia"
+
+2.  EDAD_DIAGNOSTICO: se consideran los siguientes grupos etarios: 0 a 2 Meses, 3 a 5 Meses, 6 a 11 Meses, 12 a 23 Meses, 02 a 04 Años, 05 a 09 Años, 10 a 14 Años, 15a 19 Años, 20 a 24 Años, 25 a 29 Años, 30 a 34 Años, 35 a 39 Años, 40 a 49 Años, 50 a 59 Años, 60 a 64 Años, 65 a 69 Años, 70 a 74 Años, 75 y más Años. 
+
+3.  SEPI_MIN_INTERNACION: construye la SE correspondiente de acuerdo a la fecha de internación registrada en el SNVS y cuando esta no está disponible toma la menor fecha fecha entre fecha de apertura y fallecimiento
+
+4.  ANIO_MIN_INTERNACION: toma el año de la fecha de internación registrada en el SNVS y cuando esta no está disponible toma la menor fecha fecha entre fecha de apertura y fallecimiento
+
+5.  INFLUENZA_FINAL: puede contener las siguientes categorias: Influenza A (sin subtipificar), Influenza A H1N1, Influenza A H3N2,  Influenza B (sin linaje), Influenza B Victoria,  Influenza B Yamagata, Virus Influenza, Negativo, Sin resultado
+
+6.  COVID_19_FINAL: puede contener las siguientes categorias: Negativo, Positivo, Sin resultado
+
+7.  VSR_FINAL: puede contener las siguientes categorias: Negativo, Sin resultado, VSR, VSR A, VSR B.
+
+8.  
+
+9.  
+
+## **Pasos para el procesamiento y analisis:**
+
+1.  Utilizar los siguientes paquetes de R studio:
+
+-   library(dplyr)
+
+-   library(ggplot2)
+
+-   library(lubridate)
+
+-   library(stringr)
+
+-   library(readxl)
+
+-   library(writexl)
+
+-   library(readr)
+
+**2-** Importar base de datos \"Base_UC_IRAG\" obtenida de la nube, y convertir en formato excel
+
+**3-**Generamos un nuevo dataframe llamado \"dfnom\", utilizando la función select donde se incluyen las siguientes variables:
+
+-   CLASIFICACION_MANUAL
+
+-   SEPI_MIN_INTERNACION
+
+-   ANIO_MIN_INTERNACION
+
+-   EDAD_UC_IRAG
+
+**4-**Con la función filter se excluirá de la variable CLASIFICACIÓN_MANUAL, la categoría \"Caso invalidado por epidemiología\". Además en el mismo código se agrega  \![is.na](http://is.na) para que no tome los NA
+
+**5-** GRÁFICO N° 1. Casos de IRAG e IRAG extendida según semana epidemiológica
