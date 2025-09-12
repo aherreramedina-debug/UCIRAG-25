@@ -1,0 +1,29 @@
+/* Contenedor principal */
+.header {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Logo a la derecha */
+.logo-container {
+  text-align: right;       /* Mueve el logo a la derecha */
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 5px;     /* Espacio debajo del logo */
+}
+
+/* Imagen del logo */
+.logo-img {
+  height: 100px;           /* Ajusta tamaño según prefieras */
+  width: auto;
+}
+
+/* Título principal */
+.title {
+  text-align: center;      /* Centrado */
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 10px;        /* Espacio después del logo */
+  margin-bottom: 5px;     /* Espacio antes del texto */
+  line-height: 1.2;
+}
