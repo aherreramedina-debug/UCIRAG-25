@@ -60,19 +60,29 @@ Se utilizará como fuente de datos el recorte de UCIRAG de la Oud Cloud del SNVS
 
 1.  Utilizar los siguientes paquetes de R studio:
 
--   library(dplyr)
+library(dplyr)
 
--   library(ggplot2)
+library(ggplot2)
 
--   library(lubridate)
+library(lubridate)
 
--   library(stringr)
+library(stringr)
 
--   library(readxl)
+library(readxl)
 
--   library(writexl)
+library(writexl)
 
--   library(readr)
+library(readr)
+
+library(extrafont)
+
+library(leaflet)
+
+library(geoAr)
+
+library(highcharter)
+
+library(tidyr)
 
 **2-** Importar base de datos \"Base_UC_IRAG\" obtenida de la nube, y convertir en formato excel
 
