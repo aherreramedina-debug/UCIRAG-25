@@ -4,13 +4,15 @@ format:
   html:
     embed-resources: true
     published-title: "Fecha:"  # Cambia "Published" por "Fecha"
-    title: "UCIRAG HOSPITAL AVELLANEDA"
+    title: "UNIDAD CENTINELA DE INFECCION RESPIRATORIA AGUDA GRAVE (IRAG)"
     author-title: "Autor: UCIRAG TUCUMAN / SALTA"
     toc: true                # Habilita la tabla de contenidos
     toc-title: "Índice de Contenidos"  # Título del índice
     toc-depth: 3             # Nivel de profundidad del índice (hasta h3)
     toc-location: left       # Ubicación del índice (izquierda)
-    #include-before-body: logo.html # Incluye el logo antes del contenido
+    include-in-header: logo.html
+    css: estilologo.css
+link-citations: true
 editor: visual
 execute:
   warning: false
@@ -18,11 +20,6 @@ execute:
 footnotes-hover: true # muestra notas al pie
 smooth-scroll: true # suaviza el scroll
 code-copy: true            # Permite copiar el código desde el documento
-include-in-header: header/header_1.html
-# css: CSS/style.css
-# resources:
-#   - "logos/logo_1-01.png"
-link-citations: true
 ---
 
 ```{r}
@@ -39,7 +36,13 @@ library(stringr)
 library(readxl)
 library(writexl)
 library(readr)
-library(extrafont)
+
+if (requireNamespace("extrafont", quietly = TRUE)) {
+  library(extrafont)
+} else {
+  message("Paquete 'extrafont' no disponible, se omite su carga.")
+}
+
 library(leaflet)
 library(geoAr)
 library(highcharter)
