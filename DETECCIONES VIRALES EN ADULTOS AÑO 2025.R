@@ -70,7 +70,6 @@ resumen_casos <- base_limpia %>%
     COVID_positivos = sum(COVID_FINAL2 == "SARS_COV_2", na.rm = TRUE)
   )
 
-print(resumen_casos)
 
 # ----------------------------------------------------------------
 # DEFINIR EL ORDEN DE LOS GRUPOS ETARIOS EN EDAD_UC_IRAG
@@ -154,5 +153,5 @@ grafico_determinaciones_adultos <- plot_ly(
 # ==================================================================
 
 
-grafico_determinaciones_adultos
-print(grafico_determinaciones_adultos)
+# grafico_determinaciones_adultos
+# print(grafico_determinaciones_adultos)
