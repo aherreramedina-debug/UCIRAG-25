@@ -8,14 +8,6 @@
 # CLASIFICACION MANUAL DE CASO
 # EDAD_UC_IRAG
 
-# ----------------------------------------------------------------
-# LIMPIEZA DE BASE Y NUEVO DATAFRAME
-# ----------------------------------------------------------------
-
-base_limpia<-dfnom %>%
-  select(CLASIFICACION_MANUAL,SEPI_MIN_INTERNACION,ANIO_MIN_INTERNACION, EDAD_UC_IRAG)
- %>%
-  filter(CLASIFICACION_MANUAL %in% c("Infección respiratoria aguda grave (IRAG)", "IRAG extendida"))
 
 # ----------------------------------------------------------------
 # ORDENAR LA VARIABLE GRUPO ETARIO y CREAR UN VECTOR PARA GRUPO DE EDAD
@@ -29,19 +21,19 @@ orden_edades <- c(
   "60 a 64 Años", "65 a 69 Años", "70 a 74 Años", "75 y más Años"
 )
 
-base_limpia$EDAD_UC_IRAG <- factor(
+DATA_NUEVO$EDAD_UC_IRAG <- factor(
   base_limpia$EDAD_UC_IRAG,
   levels = orden_edades,
   ordered = TRUE)
 
-valores_ordenados <- levels(base_limpia$EDAD_UC_IRAG)
+valores_ordenados <- levels(DATA_NUEVO$EDAD_UC_IRAG)
 valores_ordenados
 
 # ----------------------------------------------------------------
 # AGRUPAR DATOS PARA EL GRAFICO Y ELIMINAR NA
 # ----------------------------------------------------------------
 
-casos_por_edad <- base_limpia %>%
+casos_por_edad <- DATA_NUEVO %>%
   filter(!is.na(EDAD_UC_IRAG), !is.na(CLASIFICACION_MANUAL)) %>%
   group_by(EDAD_UC_IRAG, CLASIFICACION_MANUAL) %>%
   summarise(n = n(), .groups = "drop") %>%
@@ -56,7 +48,7 @@ GRAFICO_INTERACTIVO_EDAD <- highchart() %>%
   hc_chart(type = "column") %>%
   hc_title(text = "GRAFICO N°2: Casos de IRAG e IRAG extendida por grupo de edad",
            style = list(fontWeight = "bold", fontSize = "16px")) %>%
-  hc_subtitle(text = "Desde SE 18 del 2024 hasta SE 30 del 2025. Hospital Avellaneda. Provincia de Tucumán") %>%
+  hc_subtitle(text = "Desde SE 18 del 2024 hasta SE 30 del 2025. UCIRAG Hospital Avellaneda. Provincia de Tucumán") %>%
   hc_xAxis(
     categories = as.character(casos_por_edad$EDAD_UC_IRAG),
     title = list(text = "Grupo etario"),
