@@ -36,6 +36,7 @@ library(stringr)
 library(readxl)
 library(writexl)
 library(readr)
+library(gt)
 
 if (requireNamespace("extrafont", quietly = TRUE)) {
   library(extrafont)
@@ -213,227 +214,39 @@ mapa_efectores
 ## Casos de IRAG e IRAG extendida segun Semana Epidemiológica - UC-IRAG Hospital Avellaneda -Año 2024 y 2025
 
 ```{r}
-#| label: casos vs se - UCIRAG 
+#| label: CASOS POR SE
 #| message: false 
-#| warning: false 
-#| echo: false  
-#| 
-# ------------------------------------------------------------
-# NUEVO DATAFRAME Y LIMPIEZA DE BASE 
-# ------------------------------------------------------------
+#| echo: false
+#| warning: false
 
-# font_import(prompt = FALSE)   
-# Esto tarda unos minutos
-# loadfonts(device = "win")
-
-
-
-DATA_NUEVO<-dfnom %>%
-  select(CLASIFICACION_MANUAL,SEPI_FECHA_INTER,ANIO_FECHA_INTER, EDAD_UC_IRAG)
-
-#dataframe con las variables a utilizar
-
-DATA_NUEVO <- DATA_NUEVO %>%
-  filter(CLASIFICACION_MANUAL %in% c("Infección respiratoria aguda grave (IRAG)", "IRAG extendida") &
-           !is.na(SEPI_FECHA_INTER) &
-           !is.na(ANIO_FECHA_INTER))
-
-
-#unique(DATA_NUEVO$CLASIFICACION_MANUAL) 
-#chequear
-
-#any(is.na(DATA_NUEVO$SEPI_FECHA_INTER))
-#sum(is.na(DATA_NUEVO$SEPI_FECHA_INTER))
-
-# -----------------------------------------------------------
-# PASOS PARA GRAFICO CASOS DE IRAG/IRAG EXTENDIDA POR SEMANA #EPIDEM
-# -----------------------------------------------------------
-
-CASOS_SEMANA_TIPO <- DATA_NUEVO %>%
-  group_by(ANIO_FECHA_INTER, SEPI_FECHA_INTER, CLASIFICACION_MANUAL) %>%
-  summarise(CASOS = n(), .groups = "drop")
-
-CASOS_SEMANA_TIPO <- CASOS_SEMANA_TIPO %>%
-  mutate(SEMANA_LABEL = paste0(ANIO_FECHA_INTER, "SE", str_pad(SEPI_FECHA_INTER, 2, pad = "0")))
-
-
-colores <- c("Infección respiratoria aguda grave (IRAG)" = "#1F77B4","IRAG extendida" = "#FF7F0E")  
-
-ggplot(CASOS_SEMANA_TIPO, aes(x = SEMANA_LABEL, y = CASOS, fill = CLASIFICACION_MANUAL)) +
-  geom_bar(stat = "identity", position = "stack", color = "black", size = 0.15) +  
-  scale_fill_manual(values = colores) +
-  labs(
-    title = "GRAFICO N°1: Casos de IRAG e IRAG extendida por semana epidemiológica",
-    subtitle = "Hospital Avellaneda Periodo 2024-2025",
-    x = "Semana epidemiológica",
-    y = "Número de casos",
-    fill = "Clasificación de caso",
-    caption = "Fuente: Elaboración propia en base a los datos del Sistema Nacional de Vigilancia de la Salud SNVS 2.0"
-  ) +
-  theme_minimal(base_family = "sans") + 
-  theme(
-    plot.title = element_text(face = "bold", size = 14, hjust = 0),
-    plot.subtitle = element_text(size = 11, hjust = 0, margin = margin(b = 15)),
-    axis.text.x = element_text(angle = 90, size = 7, vjust = 0.5, hjust = 1), 
-    axis.text.y = element_text(size = 9),
-    axis.title = element_text(face = "bold", size = 11),
-    legend.title = element_text(face = "bold", size = 10),
-    legend.position = "bottom", #leyenda abajo
-    legend.background = element_rect(fill = "transparent"),
-    panel.grid.major.x = element_blank(),  
-    panel.grid.minor = element_blank()
-  )
+source("GRAFICO IRAG POR SE INTERACTVIO.R")
+GRAFICO_INTERACTIVO_SE
 
 ```
 
 ## Casos de IRAG e IRAG extendida segun grupo etario - UC-IRAG Hospital Avellaneda - Año 2024 y 2025
 
 ```{r}
-#| label: casos vs edad - UCIRAG 
+#| label: CASOS POR GRUPO DE EDAD
 #| message: false 
-#| warning: false 
-#| echo: false  
-#| 
-# -----------------------------------------------------------
-# ------ORDENAR LA VARIABLE GRUPO ETARIO y CREAR UN VECTOR PARA GRUPO # DE EDAD-------
+#| echo: false
+#| warning: false
 
-orden_edades <- c(
-  "0 a 2 Meses", "3 a 5 Meses", "6 a 11 Meses", "12 a 23 Meses",
-  "02 a 04 Años", "05 a 09 Años", "10 a 14 Años", "15 a 19 Años",
-  "20 a 24 Años", "25 a 29 Años", "30 a 34 Años", "35 a 39 Años",
-  "40 a 44 Años", "45 a 49 Años", "50 a 54 Años", "55 a 59 Años",
-  "60 a 64 Años", "65 a 69 Años", "70 a 74 Años", "75 y más Años"
-)
-
-base_limpia$EDAD_UC_IRAG <- factor(
-  base_limpia$EDAD_UC_IRAG,
-  levels = orden_edades,
-  ordered = TRUE)
-
-valores_ordenados <- levels(base_limpia$EDAD_UC_IRAG)
-
-
-
-# ------GRAFICO DE IRAG TOTALES VS. GRUPO ETARIO--------
-
-# Crear base sin valores NA en las variables clave
-base_limpia_filtrada <- base_limpia %>%
-  filter(!is.na(CLASIFICACION_MANUAL), !is.na(EDAD_UC_IRAG))
-
-# Luego, usás esa base para el gráfico
-ggplot(base_limpia_filtrada, aes(x = EDAD_UC_IRAG, fill = CLASIFICACION_MANUAL)) +
-  geom_bar(position = "stack") +
-  labs(
-    title = "Casos de IRAG e IRAG extendida por grupo etario",
-    x = "Grupo etario",
-    y = "Número de casos",
-    fill = "Clasificación"
-  ) +
-  scale_fill_manual(
-    values = c(
-      "Infección respiratoria aguda grave (IRAG)" = "#1F78B4",
-      "IRAG extendida" = "#33A02C"
-    )
-  ) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    plot.title = element_text(face = "bold", hjust = 0.5),
-    legend.position = "top"
-  )
-
+source("GRAFICO IRAG POR GRUPO DE EDAD INTERACTIVO.R")
+GRAFICO_INTERACTIVO_EDAD
 ```
 
 ## Casos de virus respiratorios por Semana Epidemiológica - UCIRAG Hospital Avellaneda - Tucumán - Año 2024 y 2025
-
 ```{r}
-#| label: Virus respi vs SE interact - UCIRAG 
+#| label: CASOS IRAG POR TIPO DE VIRUS Y SE
 #| message: false 
-#| warning: false 
-#| echo: false  
-#| 
-#casos de virus respiratorios por SE
-data_virus <- notti %>% 
-  select(SEPI_MIN_INTERNACION,ANIO_MIN_INTERNACION,
-         INFLUENZA_FINAL,VSR_FINAL,COVID_19_FINAL)
+#| echo: false
+#| warning: false
 
-data_influ <- data_virus %>%
-  mutate(detectable_influenza = case_when(
-    `INFLUENZA_FINAL` == "Influenza A (sin subtipificar)" |
-      `INFLUENZA_FINAL` == "Influenza A H3N2" |
-      `INFLUENZA_FINAL` == "Influenza positivo-Sin Tipo" |
-      `INFLUENZA_FINAL` == "Influenza B (sin linaje)"|
-      `INFLUENZA_FINAL` == "Influenza A H1N1"~ 1,
-
-    `INFLUENZA_FINAL` == "Negativo" |
-      `INFLUENZA_FINAL` == "Sin resultado"  ~ 0,
-    # Si ninguna de las condiciones anteriores se cumple, asignar NA
-    TRUE ~ NA
-  ))
-
-
-data_vsr <- data_influ %>%
-  mutate(detectable_VSR = case_when(
-    `VSR_FINAL` == "VSR" |
-      `VSR_FINAL` == "VSR B"~ 1,
-    
-    `VSR_FINAL` == "Negativo" |
-      `VSR_FINAL` == "Sin resultado"  ~ 0,
-    # Si ninguna de las condiciones anteriores se cumple, asignar NA
-    TRUE ~ NA
-  ))
-
-data_COVID <- data_vsr %>%
-  mutate(detectable_COVID = case_when(
-    `COVID_19_FINAL` == "Positivo" ~ 1,
-    
-    `COVID_19_FINAL` == "Negativo" |
-      `COVID_19_FINAL` == "Sin resultado"  ~ 0,
-    # Si ninguna de las condiciones anteriores se cumple, asignar NA
-    TRUE ~ NA
-  ))
-
-
-
-data_COVID <- data_COVID %>%
-  group_by(SEPI_MIN_INTERNACION, ANIO_MIN_INTERNACION) %>%
-  summarise(
-    casos_influenza = sum(detectable_influenza== 1, na.rm = TRUE),
-    casos_vsr       = sum(detectable_VSR == 1, na.rm = TRUE),
-    casos_covid     = sum(detectable_COVID == 1, na.rm = TRUE),
-    .groups = "drop"
-  ) %>%
-  arrange(ANIO_MIN_INTERNACION, SEPI_MIN_INTERNACION)
-library(gt)
-  
-casos_sepi_virus <- data_COVID%>% 
-  arrange(ANIO_MIN_INTERNACION, SEPI_MIN_INTERNACION,) %>% 
-  mutate(sepi_label = paste0(ANIO_MIN_INTERNACION, " - SE ", 
-                             SEPI_MIN_INTERNACION))
-
-Grafico_interactivo_virus <- highchart()  %>% 
-  hc_chart(type = "column")  %>% 
-  hc_xAxis(categories = casos_sepi_virus$sepi_label,
-           title = list(text = "Semanas Epidemiológicas"))  %>% 
-  hc_yAxis(title = list(text = "Cantidad de casos"))  %>% 
-  hc_plotOptions(
-    column = list(stacking = "normal",
-      pointPadding = 0.1,   
-      groupPadding = 0.05,  
-      borderWidth = 0))  %>% 
-  hc_add_series(name = "Influenza", data = casos_sepi_virus$"casos_influenza", color = "red")  %>% 
-  hc_add_series(name = "VSR", data = casos_sepi_virus$"casos_vsr", color = "darkgreen")  %>% 
-  hc_add_series(name = "COVID19", data = casos_sepi_virus$"casos_covid", color = "blue")  %>% 
-  hc_title(text = 
-             "Casos de virus respiratorios por Semana Epidemiológica .\n Desde SE23 2024-SE34 2025 .\n 
-           UCIRAG Hospital Avellaneda, Tucumán")
-
-Grafico_interactivo_virus
-
-
-
-
+source("GRAFICO IRAG CASOS POR TIPO DE VIRUS Y SE INTERACTIVO.R")
+GRAFICO_INTERACTIVO_VIRUS
 ```
+
 
 ## Detecciones virales segun semana epidemiologica - UC-IRAG Hospital Avellaneda - Año 2024 y 2025
 
