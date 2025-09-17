@@ -36,6 +36,7 @@ library(stringr)
 library(readxl)
 library(writexl)
 library(readr)
+library(gt)
 
 if (requireNamespace("extrafont", quietly = TRUE)) {
   library(extrafont)
@@ -47,6 +48,7 @@ library(leaflet)
 library(geoAr)
 library(highcharter)
 library(tidyr)
+
 
 # --------IMPORTAR BASE---------
 
@@ -78,21 +80,15 @@ notti <- base_limpia %>% mutate( GRUPO_ETARIO= case_when( EDAD_UC_IRAG == "0 a 2
 
 # Introducción
 
-Las infecciones respiratorias agudas (IRAs) constituyen una importante causa de morbimortalidad afectando fundamentalmente a niñas/os menores de cinco años, particularmente aquellos menores de 2 años, adultos mayores y personas susceptibles con patologías de base (cardiovascular, respiratoria, inmunosupresión, entre otras).
+Las infecciones respiratorias agudas (IRAs) constituyen una de las principales causas de morbimortalidad a nivel mundial, afectando especialmente a niñas y niños menores de cinco años, a adultos mayores y personas con comorbilidades como enfermedades cardiovasculares, respiratorias o inmunosupresión. Las infecciones respiratorias emergentes representan además un desafío sanitario significativo debido a su alto potencial de transmisión de persona a persona.
 
-En Argentina, todos los años se verifica un progresivo aumento de los casos de IRAs en la época invernal. Dicho aumento se asocia con un incremento en la demanda de atención, del número de hospitalizaciones y de la mortalidad por causas respiratorias. 
+Frente a esta realidad, y como parte del fortalecimiento de la estrategia federal para la vigilancia de infecciones respiratorias agudas graves (IRAG), el Ministerio de Salud de la Nación impulsó en 2024 la expansión de la Red de Unidades Centinela (UC-IRAG) a las 24 jurisdicciones del país. En este contexto, y considerando que la vigilancia centinela se basa en la recolección oportuna y sistemática de datos mediante un número limitado de establecimientos seleccionados bajo criterios específicos, el Ministerio de Salud Pública de la provincia de Tucumán designó al Hospital de Clínicas Presidente Dr. Nicolás Avellaneda como sitio centinela para la implementación de la vigilancia de IRAG en la región. Esta designación permite monitorear de manera precisa y constante la circulación de agentes etiológicos responsables de IRAG.
 
-Las infecciones respiratorias emergentes representan un riesgo importante para la población en virtud de su elevado potencial de transmisión de persona a persona.
-
-Actualmente en la provincia de Tucumán se desarrollan diferentes estrategias de vigilancia epidemiológica de IRAs. La vigilancia epidemiológica sistemática de las infecciones respiratorias agudas graves (IRAG) es fundamental para la caracterización de la situación epidemiológica, detección de eventos inusuales y la implementación oportuna de las medidas de promoción, prevención y control, fortaleciendo la capacidad de respuesta de los servicios de atención y del sector salud en su conjunto.
-
-La Organización Mundial de la Salud recomienda la implementación de sistemas de vigilancia centinela de hospitalizaciones por IRAG (UC-IRAG) que integran la vigilancia de virus respiratorios con potencial epidémico y pandémico: SARS-CoV-2, influenza y virus sincitial respiratorio (VSR). La UC-IRAG en casos hospitalizados se complementa con la vigilancia centinela de estos tres virus en ambulatorios a través de las Unidades de Monitoreo Ambulatorio (UMAs) y ambas permiten caracterizar el espectro de severidad de las infecciones respiratorias agudas de manera integrada.
-
-## Objetivo General
-
-Describir el perfil clínico, epidemiológico y de diagnóstico etiológico de las infecciones respiratorias agudas graves (IRAG) notificadas a través de la estrategia de unidad centinela del Hospital Avellaneda durante el período comprendido entre la SE 18 del 2024 y la SE 30 del 2025
+El presente informe tiene como objetivo describir el perfil clínico, epidemiológico y de diagnóstico etiológico de las infecciones respiratorias agudas graves (IRAG) notificadas a través de la estrategia de Unidad Centinela del Hospital Avellaneda.
 
 ## Ubicación geográfica
+
+La OMS recomienda sistemas de vigilancia centinela de hospitalizaciones por IRAG (UC-IRAG) que integren la vigilancia de virus respiratorios con potencial epidémico: SARS-CoV-2, influenza y VSR. En el hospital Avellaneda, esta vigilancia se complementa con el monitoreo ambulatorio (UMAs), coordinando aspectos clínicos, epidemiológicos y laboratoriales, para lo cual resulta necesario el trabajo conjunto y colaborativo entre el laboratorio del hospital y el Laboratorio de Salud Pública provincial.
 
 ```{r}
 #| label: Ubicacion UCIRAG 
@@ -208,230 +204,100 @@ mapa_efectores
 
 ```
 
-# Análisis de la UCIRAG de la Provincia de Tucumán
+## Metodología
 
-## Casos de IRAG e IRAG extendida segun Semana Epidemiológica - UC-IRAG Hospital Avellaneda -Año 2024 y 2025
+Para el presente analisis se consideraron los casos de IRAG e IRAG extendida definidos como:
+
+1.  **Infección Respiratoria Aguda Grave (IRAG):**
+    Paciente de cualquier edad con infección respiratoria aguda con:
+    - Fiebre referida o constatada \>= 38°C; y
+    - Tos; y
+    - Inicio del cuadro en los 10 días precedentes; y
+    - Requerimiento de internación por criterio clínico
+
+2.  **Infección Respiratoria Aguda Grave (IRAG) extendida en \< 2 años y \>= 60
+    años:**
+    - Infección respiratoria: definida por tos o dificultad respiratoria; e
+    - Inicio del cuadro en los 10 días precedentes; y
+    - Requerimiento de internación por criterio clínico
+
+    En lactantes menores de 6 meses también considerar:
+    -Apnea (cese temporal de la respiración por cualquier causa), o
+    -Sepsis (fiebre/hipotermia) y shock y gravemente enfermo sin causa aparente
+
+**Todos los pacientes que cumplen con las definiciones de caso deben ser estudiados para SARS-CoV-2, Influenza y VRS por metodos moleculares.**
+
+Para mayor informacion de la estrategia de vigilancia centinela de IRAG consultar en: https://www.argentina.gob.ar/sites/default/files/guia-uc-irag-vff.pdf
+
+# Análisis de casos notificados en la UC-IRAG
+
+## Grafico Nº 1: Casos de IRAG e IRAG extendida segun Semana Epidemiológica - UC-IRAG Hospital Avellaneda - Año 2025
 
 ```{r}
-#| label: casos vs se - UCIRAG 
+#| label: CASOS POR SE
 #| message: false 
-#| warning: false 
-#| echo: false  
-#| 
-# ------------------------------------------------------------
-# NUEVO DATAFRAME Y LIMPIEZA DE BASE 
-# ------------------------------------------------------------
+#| echo: false
+#| warning: false
 
-# font_import(prompt = FALSE)   
-# Esto tarda unos minutos
-# loadfonts(device = "win")
-
-
-
-DATA_NUEVO<-dfnom %>%
-  select(CLASIFICACION_MANUAL,SEPI_FECHA_INTER,ANIO_FECHA_INTER, EDAD_UC_IRAG)
-
-#dataframe con las variables a utilizar
-
-DATA_NUEVO <- DATA_NUEVO %>%
-  filter(CLASIFICACION_MANUAL %in% c("Infección respiratoria aguda grave (IRAG)", "IRAG extendida") &
-           !is.na(SEPI_FECHA_INTER) &
-           !is.na(ANIO_FECHA_INTER))
-
-
-#unique(DATA_NUEVO$CLASIFICACION_MANUAL) 
-#chequear
-
-#any(is.na(DATA_NUEVO$SEPI_FECHA_INTER))
-#sum(is.na(DATA_NUEVO$SEPI_FECHA_INTER))
-
-# -----------------------------------------------------------
-# PASOS PARA GRAFICO CASOS DE IRAG/IRAG EXTENDIDA POR SEMANA #EPIDEM
-# -----------------------------------------------------------
-
-CASOS_SEMANA_TIPO <- DATA_NUEVO %>%
-  group_by(ANIO_FECHA_INTER, SEPI_FECHA_INTER, CLASIFICACION_MANUAL) %>%
-  summarise(CASOS = n(), .groups = "drop")
-
-CASOS_SEMANA_TIPO <- CASOS_SEMANA_TIPO %>%
-  mutate(SEMANA_LABEL = paste0(ANIO_FECHA_INTER, "SE", str_pad(SEPI_FECHA_INTER, 2, pad = "0")))
-
-
-colores <- c("Infección respiratoria aguda grave (IRAG)" = "#1F77B4","IRAG extendida" = "#FF7F0E")  
-
-ggplot(CASOS_SEMANA_TIPO, aes(x = SEMANA_LABEL, y = CASOS, fill = CLASIFICACION_MANUAL)) +
-  geom_bar(stat = "identity", position = "stack", color = "black", size = 0.15) +  
-  scale_fill_manual(values = colores) +
-  labs(
-    title = "GRAFICO N°1: Casos de IRAG e IRAG extendida por semana epidemiológica",
-    subtitle = "Hospital Avellaneda Periodo 2024-2025",
-    x = "Semana epidemiológica",
-    y = "Número de casos",
-    fill = "Clasificación de caso",
-    caption = "Fuente: Elaboración propia en base a los datos del Sistema Nacional de Vigilancia de la Salud SNVS 2.0"
-  ) +
-  theme_minimal(base_family = "sans") + 
-  theme(
-    plot.title = element_text(face = "bold", size = 14, hjust = 0),
-    plot.subtitle = element_text(size = 11, hjust = 0, margin = margin(b = 15)),
-    axis.text.x = element_text(angle = 90, size = 7, vjust = 0.5, hjust = 1), 
-    axis.text.y = element_text(size = 9),
-    axis.title = element_text(face = "bold", size = 11),
-    legend.title = element_text(face = "bold", size = 10),
-    legend.position = "bottom", #leyenda abajo
-    legend.background = element_rect(fill = "transparent"),
-    panel.grid.major.x = element_blank(),  
-    panel.grid.minor = element_blank()
-  )
+source("GRAFICO IRAG POR SE INTERACTVIO.R")
+GRAFICO_INTERACTIVO_SE
 
 ```
 
-## Casos de IRAG e IRAG extendida segun grupo etario - UC-IRAG Hospital Avellaneda - Año 2024 y 2025
+## Grafico Nº 2: Casos de IRAG e IRAG extendida segun grupo etario - UC-IRAG Hospital Avellaneda - Año 2025
 
 ```{r}
-#| label: casos vs edad - UCIRAG 
+#| label: CASOS POR GRUPO DE EDAD
 #| message: false 
-#| warning: false 
-#| echo: false  
-#| 
-# -----------------------------------------------------------
-# ------ORDENAR LA VARIABLE GRUPO ETARIO y CREAR UN VECTOR PARA GRUPO # DE EDAD-------
+#| echo: false
+#| warning: false
 
-orden_edades <- c(
-  "0 a 2 Meses", "3 a 5 Meses", "6 a 11 Meses", "12 a 23 Meses",
-  "02 a 04 Años", "05 a 09 Años", "10 a 14 Años", "15 a 19 Años",
-  "20 a 24 Años", "25 a 29 Años", "30 a 34 Años", "35 a 39 Años",
-  "40 a 44 Años", "45 a 49 Años", "50 a 54 Años", "55 a 59 Años",
-  "60 a 64 Años", "65 a 69 Años", "70 a 74 Años", "75 y más Años"
-)
+source("GRAFICO IRAG POR GRUPO DE EDAD INTERACTIVO.R")
+GRAFICO_INTERACTIVO_EDAD
+```
 
-base_limpia$EDAD_UC_IRAG <- factor(
-  base_limpia$EDAD_UC_IRAG,
-  levels = orden_edades,
-  ordered = TRUE)
+## Grafico Nº 3: Casos de IRAG e IRAG extendida notificados con diagnostico etiologico segun agente. UC-IRAG Hospital Avellaneda - Año 2025
 
-valores_ordenados <- levels(base_limpia$EDAD_UC_IRAG)
+```{r}
+#| label: CASOS IRAG POR TIPO DE VIRUS Y SE
+#| message: false 
+#| echo: false
+#| warning: false
+
+source("GRAFICO IRAG CASOS POR TIPO DE VIRUS Y SE INTERACTIVO.R")
+GRAFICO_INTERACTIVO_VIRUS
+```
+
+## Grafico Nº 4: Distribución de agentes etiológicos identificados según grupos etarios en pacientes pediátricos. UC-IRAG Hospital Avellaneda - Año 2025
+
+```{r}
+#| label: agentes-etiologicos-pediatria-2025
+#| message: false 
+#| echo: false
+#| warning: false
+#| results: 'asis'
 
 
+source("DETECCIONES VIRALES EN PEDIATRIA AÑO 2025.R")
 
-# ------GRAFICO DE IRAG TOTALES VS. GRUPO ETARIO--------
+grafico_determinaciones_pediatria
 
-# Crear base sin valores NA en las variables clave
-base_limpia_filtrada <- base_limpia %>%
-  filter(!is.na(CLASIFICACION_MANUAL), !is.na(EDAD_UC_IRAG))
-
-# Luego, usás esa base para el gráfico
-ggplot(base_limpia_filtrada, aes(x = EDAD_UC_IRAG, fill = CLASIFICACION_MANUAL)) +
-  geom_bar(position = "stack") +
-  labs(
-    title = "Casos de IRAG e IRAG extendida por grupo etario",
-    x = "Grupo etario",
-    y = "Número de casos",
-    fill = "Clasificación"
-  ) +
-  scale_fill_manual(
-    values = c(
-      "Infección respiratoria aguda grave (IRAG)" = "#1F78B4",
-      "IRAG extendida" = "#33A02C"
-    )
-  ) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    plot.title = element_text(face = "bold", hjust = 0.5),
-    legend.position = "top"
-  )
 
 ```
 
-## Casos de virus respiratorios por Semana Epidemiológica - UCIRAG Hospital Avellaneda - Tucumán - Año 2024 y 2025
+## Grafico Nº 5: Distribución de agentes etiológicos identificados según grupos etarios en pacientes adultos. UC-IRAG Hospital Avellaneda - Año 2025
 
 ```{r}
-#| label: Virus respi vs SE interact - UCIRAG 
+#| label: agentes-etiologicos-adultos-2025
 #| message: false 
-#| warning: false 
-#| echo: false  
-#| 
-#casos de virus respiratorios por SE
-data_virus <- notti %>% 
-  select(SEPI_MIN_INTERNACION,ANIO_MIN_INTERNACION,
-         INFLUENZA_FINAL,VSR_FINAL,COVID_19_FINAL)
-
-data_influ <- data_virus %>%
-  mutate(detectable_influenza = case_when(
-    `INFLUENZA_FINAL` == "Influenza A (sin subtipificar)" |
-      `INFLUENZA_FINAL` == "Influenza A H3N2" |
-      `INFLUENZA_FINAL` == "Influenza positivo-Sin Tipo" |
-      `INFLUENZA_FINAL` == "Influenza B (sin linaje)"|
-      `INFLUENZA_FINAL` == "Influenza A H1N1"~ 1,
-
-    `INFLUENZA_FINAL` == "Negativo" |
-      `INFLUENZA_FINAL` == "Sin resultado"  ~ 0,
-    # Si ninguna de las condiciones anteriores se cumple, asignar NA
-    TRUE ~ NA
-  ))
+#| echo: false
+#| warning: false
+#| results: 'asis'
 
 
-data_vsr <- data_influ %>%
-  mutate(detectable_VSR = case_when(
-    `VSR_FINAL` == "VSR" |
-      `VSR_FINAL` == "VSR B"~ 1,
-    
-    `VSR_FINAL` == "Negativo" |
-      `VSR_FINAL` == "Sin resultado"  ~ 0,
-    # Si ninguna de las condiciones anteriores se cumple, asignar NA
-    TRUE ~ NA
-  ))
+source("DETECCIONES VIRALES EN ADULTOS AÑO 2025.R")
 
-data_COVID <- data_vsr %>%
-  mutate(detectable_COVID = case_when(
-    `COVID_19_FINAL` == "Positivo" ~ 1,
-    
-    `COVID_19_FINAL` == "Negativo" |
-      `COVID_19_FINAL` == "Sin resultado"  ~ 0,
-    # Si ninguna de las condiciones anteriores se cumple, asignar NA
-    TRUE ~ NA
-  ))
-
-
-
-data_COVID <- data_COVID %>%
-  group_by(SEPI_MIN_INTERNACION, ANIO_MIN_INTERNACION) %>%
-  summarise(
-    casos_influenza = sum(detectable_influenza== 1, na.rm = TRUE),
-    casos_vsr       = sum(detectable_VSR == 1, na.rm = TRUE),
-    casos_covid     = sum(detectable_COVID == 1, na.rm = TRUE),
-    .groups = "drop"
-  ) %>%
-  arrange(ANIO_MIN_INTERNACION, SEPI_MIN_INTERNACION)
-library(gt)
-  
-casos_sepi_virus <- data_COVID%>% 
-  arrange(ANIO_MIN_INTERNACION, SEPI_MIN_INTERNACION,) %>% 
-  mutate(sepi_label = paste0(ANIO_MIN_INTERNACION, " - SE ", 
-                             SEPI_MIN_INTERNACION))
-
-Grafico_interactivo_virus <- highchart()  %>% 
-  hc_chart(type = "column")  %>% 
-  hc_xAxis(categories = casos_sepi_virus$sepi_label,
-           title = list(text = "Semanas Epidemiológicas"))  %>% 
-  hc_yAxis(title = list(text = "Cantidad de casos"))  %>% 
-  hc_plotOptions(
-    column = list(stacking = "normal",
-      pointPadding = 0.1,   
-      groupPadding = 0.05,  
-      borderWidth = 0))  %>% 
-  hc_add_series(name = "Influenza", data = casos_sepi_virus$"casos_influenza", color = "red")  %>% 
-  hc_add_series(name = "VSR", data = casos_sepi_virus$"casos_vsr", color = "darkgreen")  %>% 
-  hc_add_series(name = "COVID19", data = casos_sepi_virus$"casos_covid", color = "blue")  %>% 
-  hc_title(text = 
-             "Casos de virus respiratorios por Semana Epidemiológica .\n Desde SE23 2024-SE34 2025 .\n 
-           UCIRAG Hospital Avellaneda, Tucumán")
-
-Grafico_interactivo_virus
-
-
-
+grafico_determinaciones_adultos
 
 ```
 
