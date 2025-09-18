@@ -50,6 +50,7 @@ library(highcharter)
 library(tidyr)
 
 
+
 # --------IMPORTAR BASE---------
 
 # dfnom <- read_excel("data/Base_UC_IRAG.xlsx")
@@ -75,6 +76,8 @@ base_limpia <- dfnom %>%
 notti <- base_limpia %>% mutate( GRUPO_ETARIO= case_when( EDAD_UC_IRAG == "0 a 2 Meses" | EDAD_UC_IRAG == "3 a 5 Meses" ~ "Menor a 6 Meses",
                                                     EDAD_UC_IRAG == "6 a 11 Meses"| EDAD_UC_IRAG == "12 a 23 Meses" ~ "6 a 23 Meses ",
                                                     TRUE ~ EDAD_UC_IRAG ))
+
+
    
 ```
 
@@ -208,28 +211,47 @@ mapa_efectores
 
 Para el presente analisis se consideraron los casos de IRAG e IRAG extendida definidos como:
 
-1.  **Infección Respiratoria Aguda Grave (IRAG):**
-    Paciente de cualquier edad con infección respiratoria aguda con:
-    - Fiebre referida o constatada \>= 38°C; y
-    - Tos; y
-    - Inicio del cuadro en los 10 días precedentes; y
-    - Requerimiento de internación por criterio clínico
+1.  **Infección Respiratoria Aguda Grave (IRAG):** Paciente de cualquier edad con infección respiratoria aguda con:
 
-2.  **Infección Respiratoria Aguda Grave (IRAG) extendida en \< 2 años y \>= 60
-    años:**
-    - Infección respiratoria: definida por tos o dificultad respiratoria; e
-    - Inicio del cuadro en los 10 días precedentes; y
-    - Requerimiento de internación por criterio clínico
+    -   Fiebre referida o constatada \>= 38°C; y
+    -   Tos; y
+    -   Inicio del cuadro en los 10 días precedentes; y
+    -   Requerimiento de internación por criterio clínico
 
-    En lactantes menores de 6 meses también considerar:
-    -Apnea (cese temporal de la respiración por cualquier causa), o
-    -Sepsis (fiebre/hipotermia) y shock y gravemente enfermo sin causa aparente
+2.  **Infección Respiratoria Aguda Grave (IRAG) extendida en \< 2 años y \>= 60 años:**
+
+    -   Infección respiratoria: definida por tos o dificultad respiratoria; e
+    -   Inicio del cuadro en los 10 días precedentes; y
+    -   Requerimiento de internación por criterio clínico
+
+    En lactantes menores de 6 meses también considerar: -Apnea (cese temporal de la respiración por cualquier causa), o -Sepsis (fiebre/hipotermia) y shock y gravemente enfermo sin causa aparente
 
 **Todos los pacientes que cumplen con las definiciones de caso deben ser estudiados para SARS-CoV-2, Influenza y VRS por metodos moleculares.**
 
 Para mayor informacion de la estrategia de vigilancia centinela de IRAG consultar en: https://www.argentina.gob.ar/sites/default/files/guia-uc-irag-vff.pdf
 
-# Análisis de casos notificados en la UC-IRAG
+
+```{r}
+#| label: txt enriquecido
+#| message: false 
+#| echo: false
+#| warning: false
+source("Val_txt_enriq.R")
+
+```
+
+
+
+
+# Análisis de casos notificados en la UC-IRAG del `r establecimiento` - Período: (`r periodo_texto`)
+
+Durante el período analizado (`r periodo_texto`), en el establecimiento `r establecimiento`, se registraron `r total_positivos` casos positivos de Infecciones Respiratorias.
+
+En cuanto a la clasificación manual, hubo: - `r frec_IRAG` casos de IRAG (`r prop_IRAG`%), - `r frec_IRAG_EXT` casos de IRAG extendida (`r prop_IRAG_EXT`%).
+
+La edad media de diagnóstico en pacientes positivos fue de `r round(resumen_edades$media, 1)` años, la mediana de `r resumen_edades$mediana` años, con un desvío estándar de `r round(resumen_edades$desvio_estandar, 1)`. El rango intercuartílico va de `r resumen_edades$p25` a `r resumen_edades$p75` años.
+
+
 
 ## Grafico Nº 1: Casos de IRAG e IRAG extendida segun Semana Epidemiológica - UC-IRAG Hospital Avellaneda - Año 2025
 
@@ -259,7 +281,7 @@ GRAFICO_INTERACTIVO_EDAD
 ## Grafico Nº 3: Casos de IRAG e IRAG extendida notificados con diagnostico etiologico segun agente. UC-IRAG Hospital Avellaneda - Año 2025
 
 ```{r}
-#| label: CASOS IRAG POR TIPO DE VIRUS Y SE
+#| label: CASOS IRAG POR T DE VIRUS Y SE
 #| message: false 
 #| echo: false
 #| warning: false
@@ -271,7 +293,7 @@ GRAFICO_INTERACTIVO_VIRUS
 ## Grafico Nº 4: Distribución de agentes etiológicos identificados según grupos etarios en pacientes pediátricos. UC-IRAG Hospital Avellaneda - Año 2025
 
 ```{r}
-#| label: agentes-etiologicos-pediatria-2025
+#| label: agentes-etiologicos pediatria 25
 #| message: false 
 #| echo: false
 #| warning: false
@@ -280,7 +302,7 @@ GRAFICO_INTERACTIVO_VIRUS
 
 source("DETECCIONES VIRALES EN PEDIATRIA AÑO 2025.R")
 
-grafico_determinaciones_pediatria
+
 
 
 ```
@@ -342,7 +364,7 @@ base_virus <- base_limpia %>%
 ggplot(base_virus, aes(x = semana_continua, fill = virus_resultado)) +
   geom_bar(position = "stack") +
   labs(
-    title = "Detecciones virales por semana epidemiológica",
+#    title = "Detecciones virales por semana epidemiológica",
     x = "Semana epidemiológica",
     y = "Número de casos",
     fill = "Resultado viral"
@@ -420,7 +442,7 @@ base_virus_edad <- base_limpia %>%
 ggplot(base_virus_edad, aes(x = EDAD_UC_IRAG, fill = virus_resultado)) +
   geom_bar(position = "stack") +
   labs(
-    title = "Detecciones virales positivas por grupo etario",
+#   title = "Detecciones virales positivas por grupo etario",
     x = "Grupo etario",
     y = "Número de casos",
     fill = "Resultado viral"

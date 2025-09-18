@@ -142,7 +142,7 @@ grafico_determinaciones_adultos <- plot_ly(
 ) %>%
   layout(
     barmode = 'stack',
-    title = "Determinaciones positivas por virus - Grupo Adulto",
+#    title = "Determinaciones positivas por virus - Grupo Adulto",
     xaxis = list(title = "Grupo etario"),
     yaxis = list(title = "Número de determinaciones positivas"),
     legend = list(title = list(text = "Virus"))
