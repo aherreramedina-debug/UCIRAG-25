@@ -78,6 +78,8 @@ notti <- base_limpia %>% mutate( GRUPO_ETARIO= case_when( EDAD_UC_IRAG == "0 a 2
                                                     TRUE ~ EDAD_UC_IRAG ))
 
 
+
+
    
 ```
 
