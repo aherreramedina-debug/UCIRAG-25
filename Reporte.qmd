@@ -265,7 +265,7 @@ Durante el periodo analizado ( `r periodo_min` al `r periodo_max` ), se notifica
 #| echo: false
 #| warning: false
 
-source("GRAFICO IRAG POR GRUPO DE EDAD INTERACTIVO.R")
+source("GRAFICO IRAG POR GRUPO DE EDAD INTERACTIVO_2.R")
 GRAFICO_INTERACTIVO_EDAD
 ```
 
@@ -293,7 +293,7 @@ GRAFICO_INTERACTIVO_VIRUS
 #| results: 'asis'
 
 
-source("DETECCIONES VIRALES EN PEDIATRIA AÑO 2025.R")
+source("GRAFICO POR TIPO DE VIRUS EN PEDIATRIA INTERACTIVO.R")
 
 grafico_determinaciones_pediatria
 
