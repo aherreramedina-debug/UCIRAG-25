@@ -66,12 +66,12 @@ GRAFICO_INTERACTIVO_EDAD <- highchart() %>%
   hc_add_series(
     name = "Infección respiratoria aguda grave (IRAG)",
     data = casos_por_edad$`Infección respiratoria aguda grave (IRAG)`,
-    color = "#1F77B4"
+    color = "#1F77B4" 
   ) %>%
   hc_add_series(
     name = "IRAG extendida",
     data = casos_por_edad$`IRAG extendida`,
-    color = "#33A02C"
+    color = "#CC8052"
   ) %>%
   hc_legend(
     align = "center",
