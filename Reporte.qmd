@@ -49,6 +49,8 @@ library(geoAr)
 library(highcharter)
 library(tidyr)
 
+
+
 # --------IMPORTAR BASE---------
 
 # dfnom <- read_excel("data/Base_UC_IRAG.xlsx")
@@ -74,26 +76,32 @@ base_limpia <- dfnom %>%
 notti <- base_limpia %>% mutate( GRUPO_ETARIO= case_when( EDAD_UC_IRAG == "0 a 2 Meses" | EDAD_UC_IRAG == "3 a 5 Meses" ~ "Menor a 6 Meses",
                                                     EDAD_UC_IRAG == "6 a 11 Meses"| EDAD_UC_IRAG == "12 a 23 Meses" ~ "6 a 23 Meses ",
                                                     TRUE ~ EDAD_UC_IRAG ))
+
+
    
+```
+
+```{r}
+#| label: texto enriquecido para graficos y titulos
+#| message: false 
+#| echo: false
+#| warning: false
+#| results: "hide"
+
+source("texto_enriquecido_corregido.R")
 ```
 
 # Introducción
 
-Las infecciones respiratorias agudas (IRAs) constituyen una importante causa de morbimortalidad afectando fundamentalmente a niñas/os menores de cinco años, particularmente aquellos menores de 2 años, adultos mayores y personas susceptibles con patologías de base (cardiovascular, respiratoria, inmunosupresión, entre otras).
+Las infecciones respiratorias agudas (IRAs) constituyen una de las principales causas de morbimortalidad a nivel mundial, afectando especialmente a niñas y niños menores de cinco años, a adultos mayores y personas con comorbilidades como enfermedades cardiovasculares, respiratorias o inmunosupresión. Las infecciones respiratorias emergentes representan además un desafío sanitario significativo debido a su alto potencial de transmisión de persona a persona.
 
-En Argentina, todos los años se verifica un progresivo aumento de los casos de IRAs en la época invernal. Dicho aumento se asocia con un incremento en la demanda de atención, del número de hospitalizaciones y de la mortalidad por causas respiratorias. 
+Frente a esta realidad, y como parte del fortalecimiento de la estrategia federal para la vigilancia de infecciones respiratorias agudas graves (IRAG), el Ministerio de Salud de la Nación impulsó en 2024 la expansión de la Red de Unidades Centinela (UC-IRAG) a las 24 jurisdicciones del país. En este contexto, y considerando que la vigilancia centinela se basa en la recolección oportuna y sistemática de datos mediante un número limitado de establecimientos seleccionados bajo criterios específicos, el Ministerio de Salud Pública de la provincia de Tucumán designó al Hospital de Clínicas Presidente Dr. Nicolás Avellaneda como sitio centinela para la implementación de la vigilancia de IRAG en la región. Esta designación permite monitorear de manera precisa y constante la circulación de agentes etiológicos responsables de IRAG.
 
-Las infecciones respiratorias emergentes representan un riesgo importante para la población en virtud de su elevado potencial de transmisión de persona a persona.
-
-Actualmente en la provincia de Tucumán se desarrollan diferentes estrategias de vigilancia epidemiológica de IRAs. La vigilancia epidemiológica sistemática de las infecciones respiratorias agudas graves (IRAG) es fundamental para la caracterización de la situación epidemiológica, detección de eventos inusuales y la implementación oportuna de las medidas de promoción, prevención y control, fortaleciendo la capacidad de respuesta de los servicios de atención y del sector salud en su conjunto.
-
-La Organización Mundial de la Salud recomienda la implementación de sistemas de vigilancia centinela de hospitalizaciones por IRAG (UC-IRAG) que integran la vigilancia de virus respiratorios con potencial epidémico y pandémico: SARS-CoV-2, influenza y virus sincitial respiratorio (VSR). La UC-IRAG en casos hospitalizados se complementa con la vigilancia centinela de estos tres virus en ambulatorios a través de las Unidades de Monitoreo Ambulatorio (UMAs) y ambas permiten caracterizar el espectro de severidad de las infecciones respiratorias agudas de manera integrada.
-
-## Objetivo General
-
-Describir el perfil clínico, epidemiológico y de diagnóstico etiológico de las infecciones respiratorias agudas graves (IRAG) notificadas a través de la estrategia de unidad centinela del Hospital Avellaneda durante el período comprendido entre la SE 18 del 2024 y la SE 30 del 2025
+El presente informe tiene como objetivo describir el perfil clínico, epidemiológico y de diagnóstico etiológico de las infecciones respiratorias agudas graves (IRAG) notificadas a través de la estrategia de Unidad Centinela del Hospital Avellaneda.
 
 ## Ubicación geográfica
+
+La OMS recomienda sistemas de vigilancia centinela de hospitalizaciones por IRAG (UC-IRAG) que integren la vigilancia de virus respiratorios con potencial epidémico: SARS-CoV-2, influenza y VSR. En el hospital Avellaneda, esta vigilancia se complementa con el monitoreo ambulatorio (UMAs), coordinando aspectos clínicos, epidemiológicos y laboratoriales, para lo cual resulta necesario el trabajo conjunto y colaborativo entre el laboratorio del hospital y el Laboratorio de Salud Pública provincial.
 
 ```{r}
 #| label: Ubicacion UCIRAG 
@@ -209,9 +217,32 @@ mapa_efectores
 
 ```
 
-# Análisis de la UCIRAG de la Provincia de Tucumán
+## Metodología
 
-## Casos de IRAG e IRAG extendida segun Semana Epidemiológica - UC-IRAG Hospital Avellaneda -Año 2024 y 2025
+Para el presente analisis se consideraron los casos de IRAG e IRAG extendida definidos como:
+
+1.  **Infección Respiratoria Aguda Grave (IRAG):** Paciente de cualquier edad con infección respiratoria aguda con:
+
+    -   Fiebre referida o constatada \>= 38°C; y
+    -   Tos; y
+    -   Inicio del cuadro en los 10 días precedentes; y
+    -   Requerimiento de internación por criterio clínico
+
+2.  **Infección Respiratoria Aguda Grave (IRAG) extendida en \< 2 años y \>= 60 años:**
+
+    -   Infección respiratoria: definida por tos o dificultad respiratoria; e
+    -   Inicio del cuadro en los 10 días precedentes; y
+    -   Requerimiento de internación por criterio clínico
+
+    En lactantes menores de 6 meses también considerar: -Apnea (cese temporal de la respiración por cualquier causa), o -Sepsis (fiebre/hipotermia) y shock y gravemente enfermo sin causa aparente
+
+**Todos los pacientes que cumplen con las definiciones de caso deben ser estudiados para SARS-CoV-2, Influenza y VRS por metodos moleculares.**
+
+Para mayor informacion de la estrategia de vigilancia centinela de IRAG consultar en: https://www.argentina.gob.ar/sites/default/files/guia-uc-irag-vff.pdf
+
+# Análisis de casos notificados
+
+## Grafico Nº 1: Casos de IRAG e IRAG extendida segun Semana Epidemiológica - UC-IRAG `r establecimiento` - SE `r semana_minima` a SE `r semana_maxima`. Año 2025
 
 ```{r}
 #| label: CASOS POR SE
@@ -224,7 +255,9 @@ GRAFICO_INTERACTIVO_SE
 
 ```
 
-## Casos de IRAG e IRAG extendida segun grupo etario - UC-IRAG Hospital Avellaneda - Año 2024 y 2025
+Durante el periodo analizado ( `r periodo_min` al `r periodo_max` ), se notificaron un total de `r total_casos` casos, de los cuales el `r prop_IRAG`% correspondieron a casos de IRAG y el `r prop_IRAG_EXT`% a casos de IRAG extendida
+
+## Grafico Nº 2: Casos de IRAG e IRAG extendida segun grupo etario - UC-IRAG `r establecimiento` - SE `r semana_minima` a SE `r semana_maxima`. Año 2025
 
 ```{r}
 #| label: CASOS POR GRUPO DE EDAD
@@ -236,9 +269,12 @@ source("GRAFICO IRAG POR GRUPO DE EDAD INTERACTIVO.R")
 GRAFICO_INTERACTIVO_EDAD
 ```
 
-## Casos de virus respiratorios por Semana Epidemiológica - UCIRAG Hospital Avellaneda - Tucumán - Año 2024 y 2025
+Del total de casos notificados, el `r prop_casos_pediatricos`% fueron pacientes pediatricos y el `r prop_casos_adultos` % restante pacientes adultos.
+
+## Grafico Nº 3: Casos de IRAG e IRAG extendida notificados con diagnostico etiologico segun agente - UC-IRAG `r establecimiento` - SE `r semana_minima` a SE `r semana_maxima`. Año 2025
+
 ```{r}
-#| label: CASOS IRAG POR TIPO DE VIRUS Y SE
+#| label: CASOS IRAG POR T DE VIRUS Y SE
 #| message: false 
 #| echo: false
 #| warning: false
@@ -247,143 +283,35 @@ source("GRAFICO IRAG CASOS POR TIPO DE VIRUS Y SE INTERACTIVO.R")
 GRAFICO_INTERACTIVO_VIRUS
 ```
 
-
-## Detecciones virales segun semana epidemiologica - UC-IRAG Hospital Avellaneda - Año 2024 y 2025
+## Grafico Nº 4: Distribución de agentes etiológicos identificados según grupos etarios en pacientes pediátricos - UC-IRAG `r establecimiento` - SE `r semana_minima` a SE `r semana_maxima`. Año 2025
 
 ```{r}
-#| label: Deteccion viral vs se- UCIRAG  
+#| label: agentes-etiologicos pediatria 25
 #| message: false 
-#| warning: false  
 #| echo: false
-library(tidyr) 
+#| warning: false
+#| results: 'asis'
 
-# -------- CREACION DE LA VARIABLE LLAMADA: 'semana_continua'
-base_limpia <- base_limpia %>%
-  filter(!is.na(SEPI_FECHA_INTER), !is.na(ANIO_MIN_INTERNACION)) %>%
-  mutate(
-    semana_continua = case_when(
-      ANIO_MIN_INTERNACION == 2024 ~ SEPI_FECHA_INTER,
-      ANIO_MIN_INTERNACION == 2025 ~ SEPI_FECHA_INTER + 52
-    )
-  )
 
-# ------ ELIMINAR LAS CATEGORIAS NEGATIVO Y SIN RESULTADO DE LAS VARIABLES 
-# VRS, INFLUENZA Y COVID---------------------------------------------------
+source("DETECCIONES VIRALES EN PEDIATRIA AÑO 2025.R")
 
-base_virus <- base_limpia %>%
-  select(semana_continua, INFLUENZA_FINAL, VSR_FINAL, COVID_19_FINAL) %>%
-  mutate(
-    COVID_19_FINAL = ifelse(COVID_19_FINAL == "Positivo", "Positivo COVID", COVID_19_FINAL)
-  ) %>%
-  pivot_longer(
-    cols = c(INFLUENZA_FINAL, VSR_FINAL, COVID_19_FINAL),
-    names_to = "virus_tipo",
-    values_to = "virus_resultado"
-  ) %>%
-  filter(
-    !virus_resultado %in% c("Negativo", "Sin resultado"),
-    !is.na(semana_continua)
-  )
+grafico_determinaciones_pediatria
 
-# ----- GRAFICO DE DETERMINACIONES VS SE------------------------------
-ggplot(base_virus, aes(x = semana_continua, fill = virus_resultado)) +
-  geom_bar(position = "stack") +
-  labs(
-    title = "Detecciones virales por semana epidemiológica",
-    x = "Semana epidemiológica",
-    y = "Número de casos",
-    fill = "Resultado viral"
-  ) +
-  scale_fill_brewer(palette = "Set2") +
-  scale_x_continuous(
-    breaks = seq(min(base_virus$semana_continua, na.rm = TRUE),
-                 max(base_virus$semana_continua, na.rm = TRUE),
-                 by = 1),
-    labels = function(x) {
-      ifelse(x <= 52, paste0("2024-S", x), paste0("2025-S", x - 52))
-    }
-  ) +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 90, hjust = 1, size = 8),
-    plot.title = element_text(face = "bold", hjust = 0.5),
-    legend.position = "top"
-  )
 
 ```
 
-## Detecciones virales segun grupo etario - UC-IRAG Hospital Avellaneda - Año 2024 y 2025
+## Grafico Nº 5: Distribución de agentes etiológicos identificados según grupos etarios en pacientes adultos - UC-IRAG `r establecimiento` - SE `r semana_minima` a SE `r semana_maxima`. Año 2025
 
 ```{r}
-#| label: Detecciones vs edad - UCIRAG
+#| label: agentes-etiologicos-adultos-2025
+#| message: false 
 #| echo: false
-#| message: false
 #| warning: false
-
-# ------CONSIDERACIONES----------
-
-#DEBO CREAR PRIMERO UNA BASE QUE NO CONTENGA LOS CASOS INVALIDADOS 
-# DEBO CREAR UN NUEVO OBJETO PARA ORDENAR LOS GRUPOS DE EDAD
-# LAS VARIABKE SA USAR SERAN:
-# CLASIFICACION MANUAL DE CASO
-# EDAD_UC_IRAG
+#| results: 'asis'
 
 
-# -----Ordenar los grupos etarios------
+source("DETECCIONES VIRALES EN ADULTOS AÑO 2025.R")
 
-orden_edades <- c(
-  "0 a 2 Meses", "3 a 5 Meses", "6 a 11 Meses", "12 a 23 Meses",
-  "02 a 04 Años", "05 a 09 Años", "10 a 14 Años", "15 a 19 Años",
-  "20 a 24 Años", "25 a 29 Años", "30 a 34 Años", "35 a 39 Años",
-  "40 a 44 Años", "45 a 49 Años", "50 a 54 Años", "55 a 59 Años",
-  "60 a 64 Años", "65 a 69 Años", "70 a 74 Años", "75 y más Años"
-)
-
-base_limpia$EDAD_UC_IRAG <- factor(
-  base_limpia$EDAD_UC_IRAG,
-  levels = orden_edades,
-  ordered = TRUE
-)
-
-# ------Preparar los datos virales positivos-----------
-
-base_virus_edad <- base_limpia %>%
-  select(EDAD_UC_IRAG, INFLUENZA_FINAL, VSR_FINAL, COVID_19_FINAL) %>%
-  mutate(
-    COVID_19_FINAL = ifelse(COVID_19_FINAL == "Positivo", "Positivo COVID", COVID_19_FINAL)
-  ) %>%
-  pivot_longer(
-    cols = c(INFLUENZA_FINAL, VSR_FINAL, COVID_19_FINAL),
-    names_to = "virus_tipo",
-    values_to = "virus_resultado"
-  ) %>%
-  filter(
-    !virus_resultado %in% c("Negativo", "Sin resultado"),
-    !is.na(EDAD_UC_IRAG)
-  )
-
-# ------- Crear el gráfico de barras apiladas-------------
-
-ggplot(base_virus_edad, aes(x = EDAD_UC_IRAG, fill = virus_resultado)) +
-  geom_bar(position = "stack") +
-  labs(
-    title = "Detecciones virales positivas por grupo etario",
-    x = "Grupo etario",
-    y = "Número de casos",
-    fill = "Resultado viral"
-  ) +
-  scale_fill_brewer(palette = "Set2") +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(angle = 45, hjust = 1),
-    plot.title = element_text(face = "bold", hjust = 0.5),
-    legend.position = "top"
-  )
+grafico_determinaciones_adultos
 
 ```
-
-# **Difusión de la información**
-
-A través de la notificación al SNVS 2.0 la información está al alcance del nivel provincial y nacional. Es importante que la unidad centinela difunda a los actores participantes de la estrategia los resultados de la vigilancia.
-
-A nivel provincial la información es transmitida mediante un informe de vigilancia local trimestral, y a través de la Sala de Situación Provincial y el Boletín Epidemiológico Semanal. La periodicidad de estos métodos de difusión de la información podría variar según la situación epidemiológica vigente.

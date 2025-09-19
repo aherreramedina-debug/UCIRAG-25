@@ -54,9 +54,9 @@ colores <- c("Infección respiratoria aguda grave (IRAG)" = "#1F77B4",  # azul
 ##GRAFICO INTERACTIVO
 GRAFICO_INTERACTIVO_SE <- highchart() %>%
   hc_chart(type = "column") %>%
-  hc_title(text = "GRAFICO N°1: Casos de IRAG e IRAG extendida por semana epidemiológica",
-           style = list(fontWeight = "bold", fontSize = "16px")) %>%
-  hc_subtitle(text = "Desde SE 18 del 2024 hasta SE 30 del 2025. UCIRAG Hospital Avellaneda. Provincia de Tucumán") %>%
+#  hc_title(text = "GRAFICO N°1: Casos de IRAG e IRAG extendida por semana epidemiológica",
+#           style = list(fontWeight = "bold", fontSize = "16px")) %>%
+#  hc_subtitle(text = "Desde SE 18 del 2024 hasta SE 30 del 2025. UCIRAG Hospital Avellaneda. Provincia de Tucumán") %>%
   hc_xAxis(
     categories = as.character(casos_pivot$SEMANA_LABEL),
     title = list(text = "Semana epidemiológica"),

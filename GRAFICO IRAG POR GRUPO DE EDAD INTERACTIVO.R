@@ -46,9 +46,9 @@ casos_por_edad <- DATA_NUEVO %>%
 
 GRAFICO_INTERACTIVO_EDAD <- highchart() %>%
   hc_chart(type = "column") %>%
-  hc_title(text = "GRAFICO N°2: Casos de IRAG e IRAG extendida por grupo de edad",
-           style = list(fontWeight = "bold", fontSize = "16px")) %>%
-  hc_subtitle(text = "Desde SE 18 del 2024 hasta SE 30 del 2025. UCIRAG Hospital Avellaneda. Provincia de Tucumán") %>%
+#  hc_title(text = "GRAFICO N°2: Casos de IRAG e IRAG extendida por grupo de edad",
+#           style = list(fontWeight = "bold", fontSize = "16px")) %>%
+#  hc_subtitle(text = "Desde SE 18 del 2024 hasta SE 30 del 2025. UCIRAG Hospital Avellaneda. Provincia de Tucumán") %>%
   hc_xAxis(
     categories = as.character(casos_por_edad$EDAD_UC_IRAG),
     title = list(text = "Grupo etario"),
