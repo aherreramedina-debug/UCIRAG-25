@@ -84,11 +84,11 @@ casos_sepi_virus <- data_COVID %>%
 GRAFICO_INTERACTIVO_VIRUS <- highchart() %>%
   hc_chart(type = "column") %>%
   hc_title(
-    text = "GRÁFICO N°3: Casos de IRAG estudiados para SARS-CoV-2, Influenza y VSR según resultado",
+    text = " ",
     style = list(fontWeight = "bold", fontSize = "16px")
   ) %>%
   hc_subtitle(
-    text = "Desde SE 23 del 2024 hasta SE 34 del 2025. UCIRAG Hospital Avellaneda. Provincia de Tucumán"
+    text = " "
   ) %>%
   hc_xAxis(
     categories = as.character(casos_sepi_virus$sepi_label),

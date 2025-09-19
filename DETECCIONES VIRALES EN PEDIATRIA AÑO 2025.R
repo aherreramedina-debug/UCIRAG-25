@@ -141,7 +141,7 @@ grafico_determinaciones_pediatria <- plot_ly(
 ) %>%
   layout(
     barmode = 'stack',
-    title = "Determinaciones positivas por virus - Grupo Pediátrico",
+#    title = "Determinaciones positivas por virus - Grupo Pediátrico",
     xaxis = list(title = "Grupo etario"),
     yaxis = list(title = "Número de determinaciones positivas"),
     legend = list(title = list(text = "Virus"))
