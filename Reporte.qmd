@@ -88,7 +88,7 @@ notti <- base_limpia %>% mutate( GRUPO_ETARIO= case_when( EDAD_UC_IRAG == "0 a 2
 #| warning: false
 #| results: "hide"
 
-source("texto_enriquecido.R")
+source("texto_enriquecido_corregido.R")
 ```
 
 # Introducción
@@ -240,28 +240,7 @@ Para el presente analisis se consideraron los casos de IRAG e IRAG extendida def
 
 Para mayor informacion de la estrategia de vigilancia centinela de IRAG consultar en: https://www.argentina.gob.ar/sites/default/files/guia-uc-irag-vff.pdf
 
-
-```{r}
-#| label: txt enriquecido
-#| message: false 
-#| echo: false
-#| warning: false
-source("Val_txt_enriq.R")
-
-```
-
-
-
-
-# Análisis de casos notificados en la UC-IRAG del `r establecimiento` - Período: (`r periodo_texto`)
-
-Durante el período analizado (`r periodo_texto`), en el establecimiento `r establecimiento`, se registraron `r total_positivos` casos positivos de Infecciones Respiratorias.
-
-En cuanto a la clasificación manual, hubo: - `r frec_IRAG` casos de IRAG (`r prop_IRAG`%), - `r frec_IRAG_EXT` casos de IRAG extendida (`r prop_IRAG_EXT`%).
-
-La edad media de diagnóstico en pacientes positivos fue de `r round(resumen_edades$media, 1)` años, la mediana de `r resumen_edades$mediana` años, con un desvío estándar de `r round(resumen_edades$desvio_estandar, 1)`. El rango intercuartílico va de `r resumen_edades$p25` a `r resumen_edades$p75` años.
-
-
+# Análisis de casos notificados 
 
 ## Grafico Nº 1: Casos de IRAG e IRAG extendida segun Semana Epidemiológica - UC-IRAG `r establecimiento` - SE `r semana_minima` a SE `r semana_maxima`. Año 2025
 
@@ -290,7 +269,7 @@ source("GRAFICO IRAG POR GRUPO DE EDAD INTERACTIVO.R")
 GRAFICO_INTERACTIVO_EDAD
 ```
 
-Del totalde casos notificados, el `r prop_casos_pediatricos`% (`r frec_casos_pediatricos`/`r total_casos_ped_adult`correspondieron a pacientes de edad pediatrica y el `prop_casos_adultos`% restante (`` r frec_casos_adultos` ``/ `r total_casos_ped_adult`) a pacientes adultos.
+Del total de casos notificados, el `r prop_casos_pediatricos`% (`r frec_casos_pediatricos`/`r total_casos_ped_adult)` fueron pacientes pediatricos y el `r prop_casos_adultos` % restante (`r frec_casos_adultos`/ `r total_casos_ped_adult`) pacientes adultos.
 
 ## Grafico Nº 3: Casos de IRAG e IRAG extendida notificados con diagnostico etiologico segun agente - UC-IRAG `r establecimiento` - SE `r semana_minima` a SE `r semana_maxima`. Año 2025
 
