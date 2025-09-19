@@ -78,6 +78,16 @@ notti <- base_limpia %>% mutate( GRUPO_ETARIO= case_when( EDAD_UC_IRAG == "0 a 2
    
 ```
 
+```{r}
+#| label: texto enriquecido para graficos y titulos
+#| message: false 
+#| echo: false
+#| warning: false
+#| results: "hide"
+
+source("texto_enriquecido.R")
+```
+
 # Introducción
 
 Las infecciones respiratorias agudas (IRAs) constituyen una de las principales causas de morbimortalidad a nivel mundial, afectando especialmente a niñas y niños menores de cinco años, a adultos mayores y personas con comorbilidades como enfermedades cardiovasculares, respiratorias o inmunosupresión. Las infecciones respiratorias emergentes representan además un desafío sanitario significativo debido a su alto potencial de transmisión de persona a persona.
@@ -208,22 +218,20 @@ mapa_efectores
 
 Para el presente analisis se consideraron los casos de IRAG e IRAG extendida definidos como:
 
-1.  **Infección Respiratoria Aguda Grave (IRAG):**
-    Paciente de cualquier edad con infección respiratoria aguda con:
-    - Fiebre referida o constatada \>= 38°C; y
-    - Tos; y
-    - Inicio del cuadro en los 10 días precedentes; y
-    - Requerimiento de internación por criterio clínico
+1.  **Infección Respiratoria Aguda Grave (IRAG):** Paciente de cualquier edad con infección respiratoria aguda con:
 
-2.  **Infección Respiratoria Aguda Grave (IRAG) extendida en \< 2 años y \>= 60
-    años:**
-    - Infección respiratoria: definida por tos o dificultad respiratoria; e
-    - Inicio del cuadro en los 10 días precedentes; y
-    - Requerimiento de internación por criterio clínico
+    -   Fiebre referida o constatada \>= 38°C; y
+    -   Tos; y
+    -   Inicio del cuadro en los 10 días precedentes; y
+    -   Requerimiento de internación por criterio clínico
 
-    En lactantes menores de 6 meses también considerar:
-    -Apnea (cese temporal de la respiración por cualquier causa), o
-    -Sepsis (fiebre/hipotermia) y shock y gravemente enfermo sin causa aparente
+2.  **Infección Respiratoria Aguda Grave (IRAG) extendida en \< 2 años y \>= 60 años:**
+
+    -   Infección respiratoria: definida por tos o dificultad respiratoria; e
+    -   Inicio del cuadro en los 10 días precedentes; y
+    -   Requerimiento de internación por criterio clínico
+
+    En lactantes menores de 6 meses también considerar: -Apnea (cese temporal de la respiración por cualquier causa), o -Sepsis (fiebre/hipotermia) y shock y gravemente enfermo sin causa aparente
 
 **Todos los pacientes que cumplen con las definiciones de caso deben ser estudiados para SARS-CoV-2, Influenza y VRS por metodos moleculares.**
 
@@ -231,7 +239,7 @@ Para mayor informacion de la estrategia de vigilancia centinela de IRAG consulta
 
 # Análisis de casos notificados en la UC-IRAG
 
-## Grafico Nº 1: Casos de IRAG e IRAG extendida segun Semana Epidemiológica - UC-IRAG Hospital Avellaneda - Año 2025
+## Grafico Nº 1: Casos de IRAG e IRAG extendida segun Semana Epidemiológica - UC-IRAG `r establecimiento` - SE `r semana_minima` a SE `r semana_maxima`. Año 2025
 
 ```{r}
 #| label: CASOS POR SE
@@ -244,7 +252,9 @@ GRAFICO_INTERACTIVO_SE
 
 ```
 
-## Grafico Nº 2: Casos de IRAG e IRAG extendida segun grupo etario - UC-IRAG Hospital Avellaneda - Año 2025
+Durante el periodo analizado ( `r periodo_min` al `r periodo_max` ), se notificaron un total de `r total_casos`, de los cuales el `r prop_IRAG`% (`r frec_IRAG`/`r total_casos`) correspondieron a casos de IRAG y el `r prop_IRAG_EXT`% ( `r frec_IRAG_EXT`/ `r total_casos`) a casos de IRAG extendida
+
+## Grafico Nº 2: Casos de IRAG e IRAG extendida segun grupo etario - UC-IRAG `r establecimiento` - SE `r semana_minima` a SE `r semana_maxima`. Año 2025
 
 ```{r}
 #| label: CASOS POR GRUPO DE EDAD
@@ -256,7 +266,9 @@ source("GRAFICO IRAG POR GRUPO DE EDAD INTERACTIVO.R")
 GRAFICO_INTERACTIVO_EDAD
 ```
 
-## Grafico Nº 3: Casos de IRAG e IRAG extendida notificados con diagnostico etiologico segun agente. UC-IRAG Hospital Avellaneda - Año 2025
+Del totalde casos notificados, el `r prop_casos_pediatricos`% (`r frec_casos_pediatricos`/`r total_casos_ped_adult`correspondieron a pacientes de edad pediatrica y el `prop_casos_adultos`% restante (`` r frec_casos_adultos` ``/ `r total_casos_ped_adult`) a pacientes adultos.
+
+## Grafico Nº 3: Casos de IRAG e IRAG extendida notificados con diagnostico etiologico segun agente - UC-IRAG `r establecimiento` - SE `r semana_minima` a SE `r semana_maxima`. Año 2025
 
 ```{r}
 #| label: CASOS IRAG POR TIPO DE VIRUS Y SE
@@ -268,7 +280,7 @@ source("GRAFICO IRAG CASOS POR TIPO DE VIRUS Y SE INTERACTIVO.R")
 GRAFICO_INTERACTIVO_VIRUS
 ```
 
-## Grafico Nº 4: Distribución de agentes etiológicos identificados según grupos etarios en pacientes pediátricos. UC-IRAG Hospital Avellaneda - Año 2025
+## Grafico Nº 4: Distribución de agentes etiológicos identificados según grupos etarios en pacientes pediátricos - UC-IRAG `r establecimiento` - SE `r semana_minima` a SE `r semana_maxima`. Año 2025
 
 ```{r}
 #| label: agentes-etiologicos-pediatria-2025
@@ -285,7 +297,7 @@ grafico_determinaciones_pediatria
 
 ```
 
-## Grafico Nº 5: Distribución de agentes etiológicos identificados según grupos etarios en pacientes adultos. UC-IRAG Hospital Avellaneda - Año 2025
+## Grafico Nº 5: Distribución de agentes etiológicos identificados según grupos etarios en pacientes adultos - UC-IRAG `r establecimiento` - SE `r semana_minima` a SE `r semana_maxima`. Año 2025
 
 ```{r}
 #| label: agentes-etiologicos-adultos-2025
@@ -434,9 +446,3 @@ ggplot(base_virus_edad, aes(x = EDAD_UC_IRAG, fill = virus_resultado)) +
   )
 
 ```
-
-# **Difusión de la información**
-
-A través de la notificación al SNVS 2.0 la información está al alcance del nivel provincial y nacional. Es importante que la unidad centinela difunda a los actores participantes de la estrategia los resultados de la vigilancia.
-
-A nivel provincial la información es transmitida mediante un informe de vigilancia local trimestral, y a través de la Sala de Situación Provincial y el Boletín Epidemiológico Semanal. La periodicidad de estos métodos de difusión de la información podría variar según la situación epidemiológica vigente.
